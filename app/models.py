@@ -1,51 +1,51 @@
-from datetime import datetime, timezone
-from typing import Optional
-
-import sqlalchemy as sa
-import sqlalchemy.orm as so
-from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
-
-from app import db, login
-
-
-class User(UserMixin, db.Model):
-    id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    username: so.Mapped[str] = so.mapped_column(
-        sa.String(64), index=True, unique=True
-    )
-    email: so.Mapped[str] = so.mapped_column(
-        sa.String(120), index=True, unique=True
-    )
-    password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
-
-    posts: so.WriteOnlyMapped['Post'] = so.relationship(back_populates='author')
-
-    def __repr__(self):
-        return f'<User {self.username}>'
-
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+class Endereco:
+    def __init__(self, id, cep, rua, bairro, cidade, numero, complemento=None):
+        self.id = id
+        self.cep = cep
+        self.rua = rua
+        self.bairro = bairro
+        self.cidade = cidade
+        self.numero = numero
+        self.complemento = complemento
 
 
-@login.user_loader
-def load_user(id):
-    return db.session.get(User, int(id))
+class Evento:
+    def __init__(self, id, nome, data_inicial, data_final, imagem, descricao, endereco_id):
+        self.id = id
+        self.nome = nome
+        self.data_inicial = data_inicial
+        self.data_final = data_final
+        self.imagem = imagem
+        self.descricao = descricao
+        self.endereco_id = endereco_id
 
 
-class Post(db.Model):
-    id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    body: so.Mapped[str] = so.mapped_column(sa.String(140))
-    timestamp: so.Mapped[datetime] = so.mapped_column(
-        index=True, default=lambda: datetime.now(timezone.utc)
-    )
-    user_id: so.Mapped[int] = so.mapped_column(
-        sa.ForeignKey(User.id), index=True
-    )
-    author: so.Mapped[User] = so.relationship(back_populates='posts')
+class Estande:
+    def __init__(self, id, nome, tema, imagem, descricao, evento_id):
+        self.id = id
+        self.nome = nome
+        self.tema = tema
+        self.imagem = imagem
+        self.descricao = descricao
+        self.evento_id = evento_id
 
-    def __repr__(self):
-        return f"<Post {self.body}>"
+
+class AvaliacaoEvento:
+    def __init__(self, id, nota_equipe, nota_infraestrutura, nota_organizacao, nota_experiencia, imagem_avaliacao, evento_id):
+        self.id = id
+        self.nota_equipe = nota_equipe
+        self.nota_infraestrutura = nota_infraestrutura
+        self.nota_organizacao = nota_organizacao
+        self.nota_experiencia = nota_experiencia
+        self.imagem_avaliacao = imagem_avaliacao
+        self.evento_id = evento_id
+
+
+class AvaliacaoEstande:
+    def __init__(self, id, nota_apresentacao, nota_ideia, nota_experiencia, imagem_avaliacao, estande_id):
+        self.id = id
+        self.nota_apresentacao = nota_apresentacao
+        self.nota_ideia = nota_ideia
+        self.nota_experiencia = nota_experiencia
+        self.imagem_avaliacao = imagem_avaliacao
+        self.estande_id = estande_id
