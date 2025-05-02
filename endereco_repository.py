@@ -1,3 +1,6 @@
+from models import Endereco
+
+
 class EnderecoRepository:
     def __init__(self, db):
         self.conn = db.get_conn()
@@ -41,28 +44,24 @@ class EnderecoRepository:
         self.conn.commit()
 
     def buscar_por_id(self, id):
-        cursor = self.conn.cursor(dictionary=True)
+        with self.conn.cursor(dictionary=True) as cursor:
+            query = "SELECT * FROM endereco WHERE id = %s"
+            cursor.execute(query, (id,))
+            resultado = cursor.fetchone()
 
-        query = "SELECT * FROM endereco WHERE id = %s"
-        cursor.execute(query, (id,))
-
-        resultado = cursor.fetchone()
-
-        if resultado:
-            endereco = Endereco(
-                id=resultado['id'],
-                cep=resultado['cep'],
-                rua=resultado['rua'],
-                bairro=resultado['bairro'],
-                cidade=resultado['cidade'],
-                numero=resultado['numero'],
-                complemento=resultado['complemento']
-            )
-            return endereco
-        else:
-            return None
-
-        cursor.close()
+            if resultado:
+                endereco = Endereco(
+                    id=resultado['id'],
+                    cep=resultado['cep'],
+                    rua=resultado['rua'],
+                    bairro=resultado['bairro'],
+                    cidade=resultado['cidade'],
+                    numero=resultado['numero'],
+                    complemento=resultado['complemento']
+                )
+                return endereco
+            else:
+                return None
 
     def deletar(self, endereco_id):
         with self.conn.cursor() as cursor:

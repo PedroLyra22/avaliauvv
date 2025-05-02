@@ -1,6 +1,6 @@
 class EventoRepository:
-    def __init__(self, conn):
-        self.conn = conn
+    def __init__(self, db):
+        self.conn = db.get_conn()
 
     def inserir(self, evento):
         with self.conn.cursor() as cursor:

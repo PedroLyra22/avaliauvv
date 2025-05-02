@@ -14,7 +14,8 @@ class DB:
             user=self.user,
             password=self.password,
             database=self.database,
-            cursorclass=pymysql.cursors.DictCursor
+            cursorclass=pymysql.cursors.DictCursor,
+            port=3306
         )
 
     def fechar_conexao(self):
