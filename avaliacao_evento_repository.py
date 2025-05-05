@@ -1,6 +1,6 @@
 class AvaliacaoEventoRepository:
-    def __init__(self, conn):
-        self.conn = conn
+    def __init__(self, db):
+        self.conn = db.get_conn()
 
     def inserir(self, avaliacao):
         with self.conn.cursor() as cursor:
