@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-
+from flask_cors import CORS
 from avaliacao_estande_repository import AvaliacaoEstandeRepository
 from avaliacao_evento_repository import AvaliacaoEventoRepository
 from models import Endereco, Evento, Estande, AvaliacaoEvento, AvaliacaoEstande
@@ -9,6 +9,7 @@ from evento_repository import EventoRepository
 from estande_repository import EstandeRepository
 
 app = Flask(__name__)
+CORS(app)
 
 db = DB()
 
