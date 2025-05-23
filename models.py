@@ -1,3 +1,10 @@
+class AdminUser:
+    def __init__(self, id, login, senha, email):
+        self.id = id
+        self.login = login
+        self.senha = senha
+        self.email = email
+
 class Evento:
     def __init__(self, id, nome, data_inicial, data_final, imagem, descricao, cep, rua, bairro, cidade, numero, complemento=None, admin_user_id=None):
         self.id = id
