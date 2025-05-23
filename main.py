@@ -2,9 +2,8 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from avaliacao_estande_repository import AvaliacaoEstandeRepository
 from avaliacao_evento_repository import AvaliacaoEventoRepository
-from models import Endereco, Evento, Estande, AvaliacaoEvento, AvaliacaoEstande
+from models import Evento, Estande, AvaliacaoEvento, AvaliacaoEstande
 from db import DB
-from endereco_repository import EnderecoRepository
 from evento_repository import EventoRepository
 from estande_repository import EstandeRepository
 
@@ -13,54 +12,10 @@ CORS(app)
 
 db = DB()
 
-endereco_repo = EnderecoRepository(db)
 evento_repo = EventoRepository(db)
 estande_repo = EstandeRepository(db)
 avaliacao_evento_repo = AvaliacaoEventoRepository(db)
 avaliacao_estande_repo = AvaliacaoEstandeRepository(db)
-
-
-# CRUD DE ENDEREÇO
-@app.route('/endereco', methods=['POST'])
-def criar_endereco():
-    data = request.get_json()
-    endereco = Endereco(
-        id=None,
-        cep=data['cep'],
-        rua=data['rua'],
-        bairro=data['bairro'],
-        cidade=data['cidade'],
-        numero=data['numero'],
-        complemento=data.get('complemento')
-    )
-    endereco_repo.inserir(endereco)
-    return jsonify({"message": "Endereço criado com sucesso!"}), 201
-
-@app.route('/endereco', methods=['GET'])
-def listar_enderecos():
-    enderecos = endereco_repo.listar_todos()
-    return jsonify(enderecos), 200
-
-@app.route('/endereco/<int:id>', methods=['GET'])
-def buscar_endereco(id):
-    endereco = endereco_repo.buscar_por_id(id)
-    if endereco:
-        return jsonify({
-            "id": endereco.id,
-            "cep": endereco.cep,
-            "rua": endereco.rua,
-            "bairro": endereco.bairro,
-            "cidade": endereco.cidade,
-            "numero": endereco.numero,
-            "complemento": endereco.complemento
-        }), 200
-    else:
-        return jsonify({"message": "Endereço não encontrado"}), 404
-
-@app.route('/endereco/<int:id>', methods=['DELETE'])
-def deletar_endereco(id):
-    endereco_repo.deletar(id)
-    return jsonify({"message": "Endereço deletado com sucesso!"}), 200
 
 
 # CRUD DE EVENTO
@@ -74,7 +29,12 @@ def criar_evento():
         data_final=data['data_final'],
         imagem=data['imagem'],
         descricao=data['descricao'],
-        endereco_id=data['endereco_id']
+        cep=data['cep'],
+        rua=data['rua'],
+        bairro=data['bairro'],
+        cidade=data['cidade'],
+        numero=data['numero'],
+        complemento=data.get('complemento')
     )
     evento_repo.inserir(evento)
     return jsonify({"message": "Evento criado com sucesso!"}), 201
@@ -98,7 +58,12 @@ def listar_evaentos():
         "data_final": evento['data_final'],
         "imagem": evento['imagem'],
         "descricao": evento['descricao'],
-        "endereco_id": evento['endereco_id']
+        "cep": evento['cep'],
+        "rua": evento['rua'],
+        "bairro": evento['bairro'],
+        "cidade": evento['cidade'],
+        "numero": evento['numero'],
+        "complemento": evento['complemento']
     } for evento in eventos]), 200
 
 
