@@ -1,9 +1,19 @@
+import bcrypt
+
 class AdminUser:
-    def __init__(self, id, login, senha, email):
+    def init(self, id, login, senha, email):
         self.id = id
         self.login = login
         self.senha = senha
         self.email = email
+
+    @staticmethod
+    def gerar_hash_senha(senha_plana):
+        return bcrypt.hashpw(senha_plana.encode(), bcrypt.gensalt()).decode()
+
+    @staticmethod
+    def verificar_senha(senha_plana, senha_hash):
+        return bcrypt.checkpw(senha_plana.encode(), senha_hash.encode())
 
 class Evento:
     def __init__(self, id, nome, data_inicial, data_final, imagem, descricao, cep, rua, bairro, cidade, numero, complemento=None, admin_user_id=None):
