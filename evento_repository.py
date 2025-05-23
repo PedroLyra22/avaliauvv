@@ -5,7 +5,7 @@ class EventoRepository:
     def inserir(self, evento):
         with self.conn.cursor() as cursor:
             sql = """
-                INSERT INTO evento (nome, data_inicial, data_final, imagem, descricao, cep, rua, bairro, cidade, numero, complemento)
+                INSERT INTO evento (nome, data_inicial, data_final, imagem, descricao, cep, rua, bairro, cidade, numero, complemento, admin_user_id)
                 VALUES (%s, %s, %s, %s, %s, %s)
             """
             cursor.execute(sql, (
@@ -19,7 +19,8 @@ class EventoRepository:
                 evento.bairro,
                 evento.cidade,
                 evento.numero,
-                evento.complemento
+                evento.complemento,
+                evento.admin_user_id
             ))
         self.conn.commit()
 
@@ -31,7 +32,7 @@ class EventoRepository:
     def atualizar(self, evento):
         with self.conn.cursor() as cursor:
             sql = """
-                UPDATE evento SET nome = %s, data_inicial = %s, data_final = %s, imagem = %s, descricao = %s, cep = %s, rua = %s, bairro = %s, cidade = %s, numero = %s, complemento = %s
+                UPDATE evento SET nome = %s, data_inicial = %s, data_final = %s, imagem = %s, descricao = %s, cep = %s, rua = %s, bairro = %s, cidade = %s, numero = %s, complemento = %s, admin_user_id = %s
                 WHERE id = %s
             """
             cursor.execute(sql, (
@@ -46,6 +47,7 @@ class EventoRepository:
                 evento.cidade,
                 evento.numero,
                 evento.complemento,
+                evento.admin_user_id,
                 evento.id
             ))
         self.conn.commit()

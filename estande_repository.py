@@ -5,7 +5,7 @@ class EstandeRepository:
     def inserir(self, estande):
         with self.conn.cursor() as cursor:
             sql = """
-                INSERT INTO estande (nome, tema, imagem, descricao, evento_id)
+                INSERT INTO estande (nome, tema, imagem, descricao, evento_id, admin_user_id)
                 VALUES (%s, %s, %s, %s, %s)
             """
             cursor.execute(sql, (
@@ -13,7 +13,8 @@ class EstandeRepository:
                 estande.tema,
                 estande.imagem,
                 estande.descricao,
-                estande.evento_id
+                estande.evento_id,
+                estande.admin_user_id
             ))
         self.conn.commit()
 
@@ -25,7 +26,7 @@ class EstandeRepository:
     def atualizar(self, estande):
         with self.conn.cursor() as cursor:
             sql = """
-                UPDATE estande SET nome = %s, tema = %s, imagem = %s, descricao = %s, evento_id = %s
+                UPDATE estande SET nome = %s, tema = %s, imagem = %s, descricao = %s, evento_id = %s, admin_user_id = %s
                 WHERE id = %s
             """
             cursor.execute(sql, (
@@ -34,6 +35,7 @@ class EstandeRepository:
                 estande.imagem,
                 estande.descricao,
                 estande.evento_id,
+                estande.admin_user_id,
                 estande.id
             ))
         self.conn.commit()
