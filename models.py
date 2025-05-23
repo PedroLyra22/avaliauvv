@@ -1,23 +1,17 @@
-class Endereco:
-    def __init__(self, id, cep, rua, bairro, cidade, numero, complemento=None):
-        self.id = id
-        self.cep = cep
-        self.rua = rua
-        self.bairro = bairro
-        self.cidade = cidade
-        self.numero = numero
-        self.complemento = complemento
-
-
 class Evento:
-    def __init__(self, id, nome, data_inicial, data_final, imagem, descricao, endereco_id):
+    def __init__(self, id, nome, data_inicial, data_final, imagem, descricao, cep, rua, bairro, cidade, numero, complemento=None):
         self.id = id
         self.nome = nome
         self.data_inicial = data_inicial
         self.data_final = data_final
         self.imagem = imagem
         self.descricao = descricao
-        self.endereco_id = endereco_id
+        self.cep = cep
+        self.rua = rua
+        self.bairro = bairro
+        self.cidade = cidade
+        self.numero = numero
+        self.complemento = complemento
 
 
 class Estande:
