@@ -1,5 +1,3 @@
-import os
-
 from flask import Flask, jsonify, request, session
 from flask_cors import CORS
 from avaliacao_estande_repository import AvaliacaoEstandeRepository
@@ -11,7 +9,7 @@ from estande_repository import EstandeRepository
 from admin_user_repository import AdminUserRepository
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
+app.secret_key = 'secret'
 CORS(app)
 
 db = DB()
@@ -44,7 +42,12 @@ def login_admin():
     if usuario:
         session['admin_user_id'] = usuario['id']
         session['admin_user_login'] = usuario['login']
-        return jsonify({"mensagem": "Login realizado com sucesso"}), 200
+        return jsonify({
+            "mensagem": "Login realizado com sucesso",
+            "id": usuario['id'],
+            "nome": usuario['login']
+        }), 200
+
     return jsonify({"erro": "Login ou senha inválidos"}), 401
 
 
@@ -84,7 +87,7 @@ def criar_evento():
         cidade=data['cidade'],
         numero=data['numero'],
         complemento=data.get('complemento'),
-        admin_user_id=data['admin_user_id']  # <- campo incluÃ­do
+        admin_user_id=data['admin_user_id']
     )
     evento_repo.inserir(evento)
     return jsonify({"message": "Evento criado com sucesso!"}), 201
@@ -140,7 +143,7 @@ def criar_estande():
         imagem=data['imagem'],
         descricao=data['descricao'],
         evento_id=data['evento_id'],
-        admin_user_id=data['admin_user_id']  # <- campo adicionado
+        admin_user_id=data['admin_user_id']
     )
     estande_repo.inserir(estande)
     return jsonify({"message": "Estande criado com sucesso!"}), 201
