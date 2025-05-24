@@ -1,7 +1,7 @@
 import bcrypt
 
 class AdminUser:
-    def init(self, id, login, senha, email):
+    def __init__(self, id, login, senha, email):
         self.id = id
         self.login = login
         self.senha = senha
@@ -16,7 +16,8 @@ class AdminUser:
         return bcrypt.checkpw(senha_plana.encode(), senha_hash.encode())
 
 class Evento:
-    def __init__(self, id, nome, data_inicial, data_final, imagem, descricao, cep, rua, bairro, cidade, numero, complemento=None, admin_user_id=None):
+    def __init__(self, id, nome, data_inicial, data_final, imagem, descricao, cep, rua, bairro, cidade, numero,
+                 complemento=None, admin_user_id=None):
         self.id = id
         self.nome = nome
         self.data_inicial = data_inicial
@@ -39,8 +40,8 @@ class Estande:
         self.tema = tema
         self.imagem = imagem
         self.descricao = descricao
-        self.admin_user_id = admin_user_id
         self.evento_id = evento_id
+        self.admin_user_id = admin_user_id
 
 
 class AvaliacaoEvento:

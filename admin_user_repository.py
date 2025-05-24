@@ -1,7 +1,7 @@
 from models import AdminUser
 
 class AdminUserRepository:
-    def init(self, db):
+    def __init__(self, db):
         self.conn = db.get_conn()
 
     def inserir(self, admin_user):
@@ -25,7 +25,7 @@ class AdminUserRepository:
         self.conn.commit()
 
     def autenticar(self, login, senha):
-        with self.conn.cursor(dictionary=True) as cursor:
+        with self.conn.cursor() as cursor:
             sql = "SELECT * FROM admin_user WHERE login = %s"
             cursor.execute(sql, (login,))
             usuario = cursor.fetchone()

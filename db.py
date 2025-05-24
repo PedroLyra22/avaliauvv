@@ -1,7 +1,7 @@
 import pymysql.cursors
 
 class DB:
-    def __init__(self, host='localhost', user='root', password='', database='avaliavv'):
+    def __init__(self, host='localhost', user='root', password='', database='notalise'):
         self.host = host
         self.user = user
         self.password = password
