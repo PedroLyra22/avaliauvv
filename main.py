@@ -180,7 +180,6 @@ def criar_avaliacao_evento():
         nota_infraestrutura=data['nota_infraestrutura'],
         nota_organizacao=data['nota_organizacao'],
         nota_experiencia=data['nota_experiencia'],
-        imagem_avaliacao=data.get('imagem_avaliacao'),
         evento_id=data['evento_id']
     )
 
@@ -196,7 +195,6 @@ def criar_avaliacao_estande():
         nota_apresentacao=data['nota_apresentacao'],
         nota_ideia=data['nota_ideia'],
         nota_experiencia=data['nota_experiencia'],
-        imagem_avaliacao=data.get('imagem_avaliacao'),
         estande_id=data['estande_id']
     )
 
