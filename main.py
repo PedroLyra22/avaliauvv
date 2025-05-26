@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, session
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from avaliacao_estande_repository import AvaliacaoEstandeRepository
 from avaliacao_evento_repository import AvaliacaoEventoRepository
@@ -9,9 +9,9 @@ from estande_repository import EstandeRepository
 from admin_user_repository import AdminUserRepository
 
 app = Flask(__name__)
-app.secret_key = 'secret'
-CORS(app)
-
+app.secret_key = 'foobar'
+CORS(app, origins="*", methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"], allow_headers="*")
+#CORS(app, origins=["http://localhost:63343"])
 db = DB()
 
 admin_repo = AdminUserRepository(db)
@@ -40,8 +40,6 @@ def login_admin():
     usuario = admin_repo.autenticar(data['login'], data['senha'])
 
     if usuario:
-        session['admin_user_id'] = usuario['id']
-        session['admin_user_login'] = usuario['login']
         return jsonify({
             "mensagem": "Login realizado com sucesso",
             "id": usuario['id'],
@@ -56,15 +54,6 @@ def deletar_admin(id):
     admin_repo.deletar(id)
     return jsonify({"mensagem": "Admin deletado com sucesso"}), 200
 
-
-@app.route('/admin/sessao', methods=['GET'])
-def info_sessao():
-    if 'admin_user_id' in session:
-        return jsonify({
-            "id": session['admin_user_id'],
-            "login": session['admin_user_login']
-        })
-    return jsonify({"erro": "NÃ£o autenticado"}), 401
 
 # CRUD DE EVENTO
 @app.route('/evento', methods=['POST'])
@@ -145,6 +134,7 @@ def criar_estande():
         evento_id=data['evento_id'],
         admin_user_id=data['admin_user_id']
     )
+    print(estande)
     estande_repo.inserir(estande)
     return jsonify({"message": "Estande criado com sucesso!"}), 201
 
@@ -211,9 +201,9 @@ def criar_avaliacao_estande():
     )
 
     avaliacao_estande_repo.inserir(avaliacao_estande)
-    return jsonify({"message": "AvaliaÃ§Ã£o do estande criada com sucesso!"}), 201
+    return jsonify({"message": "Avaliação do estande criada com sucesso!"}), 201
 
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
