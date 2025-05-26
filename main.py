@@ -186,6 +186,15 @@ def criar_avaliacao_evento():
     avaliacao_evento_repo.inserir(avaliacao)
     return jsonify({"message": "Avaliação criada com sucesso!"}), 201
 
+@app.route('/feed_back_evento/<int:evento_id>', methods=['GET'])
+def feed_back_evento(evento_id):
+    medias = avaliacao_evento_repo.media_por_evento(evento_id)
+
+    if not medias:
+        return jsonify({"message": "Nenhuma avaliação encontrada para este evento."}), 404
+
+    return jsonify(medias), 200
+
 @app.route('/avaliacao_estande', methods=['POST'])
 def criar_avaliacao_estande():
     data = request.get_json()
