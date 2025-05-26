@@ -29,7 +29,7 @@ CREATE TABLE estande (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     tema VARCHAR(255) NOT NULL,
-    imagem LONGBLOB,
+    imagem TEXT,
     descricao TEXT NOT NULL,
     evento_id INT,
     admin_user_id INT,
@@ -43,7 +43,6 @@ CREATE TABLE avaliacao_evento (
     nota_infraestrutura TINYINT CHECK (nota_infraestrutura BETWEEN 0 AND 5),
     nota_organizacao TINYINT CHECK (nota_organizacao BETWEEN 0 AND 5),
     nota_experiencia TINYINT CHECK (nota_experiencia BETWEEN 0 AND 5),
-    imagem_avaliacao TEXT,
     evento_id INT,
     FOREIGN KEY (evento_id) REFERENCES evento(id)
 );
@@ -53,7 +52,6 @@ CREATE TABLE avaliacao_estande (
     nota_apresentacao TINYINT CHECK (nota_apresentacao BETWEEN 0 AND 5),
     nota_ideia TINYINT CHECK (nota_ideia BETWEEN 0 AND 5),
     nota_experiencia TINYINT CHECK (nota_experiencia BETWEEN 0 AND 5),
-    imagem_avaliacao TEXT,
     estande_id INT,
     FOREIGN KEY (estande_id) REFERENCES estande(id)
 );
