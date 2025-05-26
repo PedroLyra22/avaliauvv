@@ -210,6 +210,15 @@ def criar_avaliacao_estande():
     avaliacao_estande_repo.inserir(avaliacao_estande)
     return jsonify({"message": "Avaliação do estande criada com sucesso!"}), 201
 
+@app.route('/feed_back_estande/<int:estande_id>', methods=['GET'])
+def feed_back_estande(estande_id):
+    medias = avaliacao_estande_repo.media_por_estande(estande_id)
+
+    if not medias:
+        return jsonify({"message": "Nenhuma avaliação encontrada para este estande."}), 404
+
+    return jsonify(medias), 200
+
 
 
 if __name__ == '__main__':
